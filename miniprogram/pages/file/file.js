@@ -70,7 +70,7 @@ Page({
     wx.chooseMedia({
       count: 1,
       sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camara'],
+      sourceType: ['album', 'camera'],
       mediaType: ['image', 'video'],
       success(res){
         console.log(res.tempFiles[0])
