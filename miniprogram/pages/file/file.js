@@ -73,7 +73,7 @@ Page({
       sourceType: ['album', 'camera'],
       mediaType: ['image', 'video'],
       success(res){
-        console.log(res.tempFiles[0])
+        console.log(res.tempFiles)
         const url = res.tempFiles[0].tempFilePath
         console.log(url)
         switch(res.tempFiles[0].fileType){
