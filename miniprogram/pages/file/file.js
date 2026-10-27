@@ -5,8 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imgurl: "",
-    videourl: "",
+    imgurl: [],
+    videourl: [],
   },
 
   /**
@@ -68,26 +68,33 @@ Page({
   chooseImg(){
     const that = this
     wx.chooseMedia({
-      count: 1,
+      count: 9,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       mediaType: ['image', 'video'],
       success(res){
-        console.log(res.tempFiles)
-        const url = res.tempFiles[0].tempFilePath
-        console.log(url)
-        switch(res.tempFiles[0].fileType){
-          case 'image': {
-            that.setData({
-              imgurl: url,
-            })
-          }
-          case 'video': {
-            that.setData({
-              videourl: url,
-            })
+        // console.log(res.tempFiles)
+        var imgList = []
+        var videoList = []
+        for(var i = 0; i < res.tempFiles.length; i++){
+          const url = res.tempFiles[i].tempFilePath
+          console.log(url)
+          switch(res.tempFiles[i].fileType){
+            case 'image': {
+              imgList.push(url)
+              break;
+            }
+            case 'video': {
+              videoList.push(url)
+              break;
+            }
           }
         }
+        that.setData({
+          imgurl: imgList,
+          videourl: videoList,
+        })
+        // console.log(that.data)
       }
     })
   },

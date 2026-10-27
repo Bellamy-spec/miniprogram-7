@@ -1,7 +1,11 @@
 <!--pages/file/file.wxml-->
 <text>pages/file/file.wxml</text>
 <button bind:tap="chooseImg">选择图片或视频</button>
-<image mode="widthFix" src="{{ imgurl }}"></image>
+<view wx:for-items="{{ imgurl }}" wx:for-item="item" wx:key="index">
+  <image mode="widthFix" src="{{ item }}"></image>
+</view>
 <view>上传的图片</view>
-<video src="{{ videourl }}"></video>
+<view wx:for-items="{{ videourl }}" wx:for-item="item" wx:key="index">
+  <video src="{{ item }}"></video>
+</view>
 <view>上传的视频</view>
