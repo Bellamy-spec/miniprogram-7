@@ -1,6 +1,6 @@
 <!--pages/file/file.wxml-->
 <text>pages/file/file.wxml</text>
-<button bind:tap="chooseImg">选择图片</button>
+<button bind:tap="chooseImg">选择图片或视频</button>
 <image mode="widthFix" src="{{ imgurl }}"></image>
 <view>上传的图片</view>
 <video src="{{ videourl }}"></video>
