@@ -3,5 +3,5 @@
 <button bind:tap="chooseImg">选择图片</button>
 <image mode="widthFix" src="{{ imgurl }}"></image>
 <view>上传的图片</view>
-<video scr="{{ videourl }}"></video>
+<video src="{{ videourl }}"></video>
 <view>上传的视频</view>
