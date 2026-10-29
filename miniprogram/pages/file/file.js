@@ -20,7 +20,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-
+    // console.log(this.data.imgurl)
   },
 
   /**
@@ -66,7 +66,7 @@ Page({
   },
 
   chooseImg(){
-    const that = this
+    let that = this
     wx.chooseMedia({
       count: 9,
       sizeType: ['original', 'compressed'],
@@ -78,14 +78,26 @@ Page({
         var videoList = []
         for(var i = 0; i < res.tempFiles.length; i++){
           const url = res.tempFiles[i].tempFilePath
-          console.log(url)
+          // console.log(url)
           switch(res.tempFiles[i].fileType){
             case 'image': {
               imgList.push(url)
+              wx.getImageInfo({
+                src: url,
+                success(res){
+                  console.log('getImageInfo回调输出的res', res)
+                }
+              })
               break;
             }
             case 'video': {
               videoList.push(url)
+              wx.getVideoInfo({
+                src: url,
+                success(res){
+                  console.log('getVideoInfo回调输出的res', res)
+                }
+              })
               break;
             }
           }
@@ -95,6 +107,33 @@ Page({
           videourl: videoList,
         })
         // console.log(that.data)
+      }
+    })
+  },
+
+  previewImg(e){
+    wx.previewImage({
+      current: e.currentTarget.dataset.src,
+      urls: this.data.imgurl,
+    })
+  },
+
+  previewVideo(e){
+    var videoList = []
+    for(var i = 0; i < this.data.videourl.length; i++){
+      videoList.push({
+        url: this.data.videourl[i],
+        type: 'video',
+      })
+    }
+    wx.previewMedia({
+      sources: videoList,
+      current: e.currentTarget.dataset.index,
+      success(res){
+        console.log('调用成功', res)
+      },
+      fail(err){
+        console.log('调用失败', err)
       }
     })
   },

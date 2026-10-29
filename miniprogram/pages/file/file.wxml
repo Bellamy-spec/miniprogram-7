@@ -2,10 +2,14 @@
 <text>pages/file/file.wxml</text>
 <button bind:tap="chooseImg">选择图片或视频</button>
 <view wx:for-items="{{ imgurl }}" wx:for-item="item" wx:key="index">
-  <image mode="widthFix" src="{{ item }}"></image>
+  <image mode="widthFix" src="{{ item }}" data-src="{{ item }}" bind:tap="previewImg"></image>
 </view>
 <view>上传的图片</view>
 <view wx:for-items="{{ videourl }}" wx:for-item="item" wx:key="index">
   <video src="{{ item }}"></video>
+  <button data-index="{{ index }}" bind:tap="previewVideo">单击预览视频</button>
 </view>
 <view>上传的视频</view>
+<!-- <view wx:if="{{ imgurl.length > 0 }}">
+  <button bind:tap="previewImg">预览图片</button>
+</view> -->
