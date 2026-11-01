@@ -7,6 +7,11 @@ Page({
   data: {
     imgurl: [],
     videourl: [],
+    tempFiles: [],
+    location: {},
+    markers: [],
+    downloadFile: "",
+    savedFilePath: "",
   },
 
   /**
@@ -135,6 +140,159 @@ Page({
       fail(err){
         console.log('调用失败', err)
       }
+    })
+  },
+
+  saveImg(e){
+    wx.saveImageToPhotosAlbum({
+      filePath: e.currentTarget.dataset.src,
+      success(res){
+        wx.showToast({
+          title: '保存成功',
+        })
+      }
+    })
+  },
+
+  chooseFile(){
+    let that = this
+    wx.chooseMessageFile({
+      count: 5,
+      type: 'file',
+      success(res){
+        // console.log('上传文件的回调函数返回值', res)
+        let tempFiles = res.tempFiles
+        that.setData({
+          tempFiles
+        })
+      }
+    })
+  },
+
+  chooseLocation(){
+    let that = this
+    wx.chooseLocation({
+      success(res){
+        const location = res
+        const markers = [{
+          id: 1,
+          latitude: res.latitude,
+          longitude: res.longitude,
+          iconPath: '/images/loc.png',
+          width: 30,
+          height: 30,
+        }]
+        that.setData({
+          location,
+          markers,
+        })
+      },
+      fail(res){
+        console.log('获取位置失败', res)
+      }
+    })
+  },
+
+  downloadFile(){
+    let that = this
+    const downloadTask = wx.downloadFile({
+    // wx.downloadFile({
+      url: 'https://636c-cloud1-7glpq1pj616a8565-1312576773.tcb.qcloud.la/0cc6119423c1316563e5d68f6fff170.jpg',
+      success(res){
+        console.log('成功回调之后的res对象', res)
+        // 只要服务器有响应数据，就会把响应内容写入文件并进入success()回调
+        // 业务需要自行判断是否下载到了想要的内容
+        if(res.statusCode === 200){ // 如果网络请求成功
+          that.setData({
+            downloadFile: res.tempFilePath,
+          })
+        }
+      },
+      fail(res){
+        console.log('下载文件失败', res)
+      },
+    })
+
+    downloadTask.onProgressUpdate((res) => {
+      // console.log('下载进度', res.progress)
+      // console.log('已经下载的数据长度', res.totalBytesWritten)
+      // console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
+      wx.showToast({
+        title: '正在下载：'.concat(res.progress).concat('%'),
+        icon: 'loading',
+        duration: 500,
+      })
+    })
+  },
+
+  openDoc(){
+    const downloadTask = wx.downloadFile({
+      url: 'https://636c-cloud1-7glpq1pj616a8565-1312576773.tcb.qcloud.la/tools_power_class.pdf',
+      success(res){
+        console.log('成功回调之后的res对象', res)
+        if(res.statusCode === 200){
+          wx.openDocument({
+            filePath: res.tempFilePath,
+            success: function(res){
+              console.log('打开文档成功')
+            },
+            fail: function(err){
+              console.log(err)
+            },
+          })
+        }
+      },
+    })
+
+    downloadTask.onProgressUpdate((res) => {
+      wx.showToast({
+        title: '正在下载：'.concat(res.progress).concat('%'),
+        icon: 'loading',
+        duration: 500,
+      })
+    })
+  },
+
+  downloadPDF(){
+    const that = this
+    const downloadTask = wx.downloadFile({
+      url: 'https://636c-cloud1-7glpq1pj616a8565-1312576773.tcb.qcloud.la/tools_power_class.pdf',
+      success(res){
+        console.log('成功回调之后的res对象', res)
+        if(res.statusCode === 200){
+          const fs = wx.getFileSystemManager()
+          fs.saveFile({
+            tempFilePath: res.tempFilePath,
+            success(res){
+              console.log('保存文件成功的回调', res)
+              that.setData({
+                savedFilePath: res.savedFilePath,
+              })
+            }
+          })
+        }
+      }
+    })
+
+    downloadTask.onProgressUpdate((res) => {
+      wx.showToast({
+        title: '正在下载：'.concat(res.progress).concat('%'),
+        icon: 'loading',
+        duration: 500,
+      })
+    })
+  },
+
+  openPDF(){
+    const that = this
+    wx.openDocument({
+      filePath: that.data.savedFilePath,
+      success: function(res){
+        console.log('打开文档成功')
+      },
+      fail: function(err){
+        console.log('打开文档失败', err)
+      },
     })
   },
 })

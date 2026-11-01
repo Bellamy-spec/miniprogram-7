@@ -13,3 +13,24 @@
 <!-- <view wx:if="{{ imgurl.length > 0 }}">
   <button bind:tap="previewImg">预览图片</button>
 </view> -->
+<image mode="widthFix" src="/images/background.png" bind:tap="saveImg" data-src="/images/background.png"></image>
+<button bind:tap="chooseFile">选择文件</button>
+<view wx:for-items="{{ tempFiles }}" wx:for-item="item" wx:key="index">
+  <view class="text-wrap">{{ item.path }}</view>
+</view>
+<button bind:tap="chooseLocation">选择地理位置</button>
+<view class="text-wrap">{{ location.name }}</view>
+<view class="text-wrap">{{ location.address }}</view>
+<view class="text-wrap">{{ location.latitude }}</view>
+<view class="text-wrap">{{ location.longitude }}</view>
+<map style="width: 100%; height: 300px;"
+  latitude="{{ location.latitude }}"
+  longitude="{{ location.longitude }}"
+  show-location
+  markers="{{ markers }}"
+></map>
+<button bind:tap="downloadFile">下载图片</button>
+<image src="{{ downloadFile }}"></image>
+<button bind:tap="openDoc">下载并打开文档</button>
+<button bind:tap="downloadPDF">下载PDF</button>
+<button bind:tap="openPDF">打开PDF</button>

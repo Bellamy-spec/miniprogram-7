@@ -1,0 +1,7 @@
+.text-wrap{
+  /* 核心，允许单词内断开（长英文、长数字强制换行） */
+  word-break: break-all;
+  /* 兼容旧写法，overflow-wrap:break-word 优先在单词边界断，实在不行才拆单词 */
+  overflow-wrap: break-word;
+  white-space: normal; /* 默认就是normal，不要写成nowrap！nowrap=禁止换行 */
+}
