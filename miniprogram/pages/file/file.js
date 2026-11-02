@@ -1,4 +1,5 @@
 // pages/file/file.js
+const util = require('../../utils/util.js')
 Page({
 
   /**
@@ -12,13 +13,26 @@ Page({
     markers: [],
     downloadFile: "",
     savedFilePath: "",
+    tempFilePath: "",
+    logs: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    this.setData({
+      savedFilePath: wx.getStorageSync('savedFilePath'),
+      logs: (wx.getStorageSync('logs') || []).map(log => {
+        return util.formatTime(new Date(log))
+      })
+    })
 
+    // console.log('未格式化的时间', new Date())
+    // console.log('格式化后的时间', util.formatTime(new Date()))
+
+    // console.log('2026年8月2日map处理后的结果', [2026, 8, 2].map(util.formatNumber))
+    // console.log('上午9点13分4秒map处理后的结果', [9, 13, 4].map(util.formatNumber))
   },
 
   /**
@@ -293,6 +307,33 @@ Page({
       fail: function(err){
         console.log('打开文档失败', err)
       },
+    })
+  },
+
+  chooseImage(){
+    const that = this
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      success(res){
+        that.setData({
+          tempFilePath: res.tempFiles[0].tempFilePath,
+        })
+      }
+    })
+  },
+
+  saveImage(){
+    const that = this
+    const fs = wx.getFileSystemManager()
+    fs.saveFile({
+      tempFilePath: this.data.tempFilePath,
+      success(res){
+        that.setData({
+          savedFilePath: res.savedFilePath,
+        })
+        wx.setStorageSync('savedFilePath', res.savedFilePath)
+      }
     })
   },
 })

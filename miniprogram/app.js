@@ -15,5 +15,16 @@ App({
         traceUser: true,
       });
     }
+
+    // 声明logs为获取缓存里的logs记录，没有记录时logs就为空数组；||为逻辑与
+    var logs = wx.getStorageSync('logs') || []
+
+    // unshift()是数组的操作方法，它会将一个或多个元素添加到数组的开头，这样最新记录就放在数组的最前面，这里是把Date.now()获取到的时间戳放在数组的最前面
+    logs.unshift(Date.now())
+
+    // 将logs数据存储到缓存指定的键（也就是logs）里面
+    wx.setStorageSync('logs', logs)
+    console.log(logs)
+    console.log(Date.now())
   },
 });
