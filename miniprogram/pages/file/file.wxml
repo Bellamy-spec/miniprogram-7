@@ -43,3 +43,5 @@
 <view wx:for="{{ logs }}" wx:for-item="log">
   <view>{{ index + 1 }}. {{ log }}</view>
 </view>
+<button bind:tap="choose_img">选择并上传图片</button>
+<image mode="widthFix" src="{{ img_url }}"></image>

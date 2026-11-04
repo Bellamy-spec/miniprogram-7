@@ -15,6 +15,7 @@ Page({
     savedFilePath: "",
     tempFilePath: "",
     logs: [],
+    img_url: '',
   },
 
   /**
@@ -334,6 +335,19 @@ Page({
         })
         wx.setStorageSync('savedFilePath', res.savedFilePath)
       }
+    })
+  },
+
+  choose_img(){
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sizeType: ['compressed'],
+      sourceType: ['album', 'camera'],
+      success: function(res){
+        console.log('上传文件的临时路径列表', res.tempFiles[0].tempFilePath)
+        const filePath = res.tempFiles[0].tempFilePath    // 上传第一张图片
+      },
     })
   },
 })
