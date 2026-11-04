@@ -347,6 +347,9 @@ Page({
       success: function(res){
         console.log('上传文件的临时路径列表', res.tempFiles[0].tempFilePath)
         const filePath = res.tempFiles[0].tempFilePath    // 上传第一张图片
+        const ext = filePath.match(/.[^.]+?$/)[0]         // 获取文件后缀名
+        const cloudPath = `${Date.now()}-${Math.floor(Math.random(0, 1) * 1000)}` + ext
+        console.log('合成的cloudPath', cloudPath)
       },
     })
   },
