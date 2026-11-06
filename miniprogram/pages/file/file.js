@@ -339,18 +339,72 @@ Page({
   },
 
   choose_img(){
+    const that = this
+    console.log('最外层', this.data)
     wx.chooseMedia({
       count: 1,
       mediaType: ['image'],
       sizeType: ['compressed'],
       sourceType: ['album', 'camera'],
       success: function(res){
+        console.log('进入回调函数当中', this.data)
         console.log('上传文件的临时路径列表', res.tempFiles[0].tempFilePath)
         const filePath = res.tempFiles[0].tempFilePath    // 上传第一张图片
         const ext = filePath.match(/.[^.]+?$/)[0]         // 获取文件后缀名
         const cloudPath = `${Date.now()}-${Math.floor(Math.random(0, 1) * 1000)}` + ext
         console.log('合成的cloudPath', cloudPath)
+        wx.cloud.uploadFile({
+          cloudPath,
+          filePath,
+          success: res => {
+            console.log('上传成功后获得的res：', res)
+            that.setData({
+              img_url: res.fileID,
+            })
+          },
+          fail: err => {
+            console.log(err)
+          },
+        })
+        console.log('能执行到这里吗？', that.data)
       },
+    })
+  },
+
+  downFile(){
+    wx.cloud.downloadFile({
+      fileID: 'cloud://cloud1-7glpq1pj616a8565.636c-cloud1-7glpq1pj616a8565-1312576773/微信图片_20251218214122.jpg'
+    }).then(res => {
+        console.log(res.tempFilePath)
+        wx.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath,
+          success(res){
+            wx.showToast({
+              icon: 'success',
+              title: '保存成功',
+            })
+          }
+        })
+    }).catch(err => {
+        console.log(err)
+    })
+  },
+
+  delFile(){
+    wx.cloud.deleteFile({
+      fileList: [
+        'cloud://cloud1-7glpq1pj616a8565.636c-cloud1-7glpq1pj616a8565-1312576773/1793840366399-83.jpg',
+        'cloud://cloud1-7glpq1pj616a8565.636c-cloud1-7glpq1pj616a8565-1312576773/1793840590440-298.jpg',
+        'cloud://cloud1-7glpq1pj616a8565.636c-cloud1-7glpq1pj616a8565-1312576773/微信图片_20251218214129.jpg',
+      ],
+    }).then(res => {
+      console.log(res.fileList)
+      wx.showToast({
+        icon: 'success',
+        title: '删除成功',
+      })
+    }).catch(err => {
+      console.log(err)
     })
   },
 })

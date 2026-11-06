@@ -45,3 +45,5 @@
 </view>
 <button bind:tap="choose_img">选择并上传图片</button>
 <image mode="widthFix" src="{{ img_url }}"></image>
+<button bind:tap="downFile">从云存储下载文件</button>
+<button bind:tap="delFile">从云存储删除文件</button>
