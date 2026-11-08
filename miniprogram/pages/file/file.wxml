@@ -47,3 +47,4 @@
 <image mode="widthFix" src="{{ img_url }}"></image>
 <button bind:tap="downFile">从云存储下载文件</button>
 <button bind:tap="delFile">从云存储删除文件</button>
+<button bind:tap="uploadimg">云函数上传图片到云存储</button>

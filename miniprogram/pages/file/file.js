@@ -407,4 +407,13 @@ Page({
       console.log(err)
     })
   },
+
+  uploadimg(){
+    wx.cloud.callFunction({
+      name: 'uploading',
+      success: res => {
+        console.log(res)
+      }
+    })
+  },
 })
