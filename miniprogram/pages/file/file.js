@@ -412,7 +412,13 @@ Page({
     wx.cloud.callFunction({
       name: 'uploading',
       success: res => {
-        console.log(res)
+        const file_id = res.result.fileID
+        console.log('上传文件的fileID', file_id)
+        wx.cloud.getTempFileURL({
+          fileList: [file_id],
+        }).then(res => {
+          console.log('获取到的临时链接', res.fileList)
+        })
       }
     })
   },
