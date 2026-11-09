@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/folder/folder",
     "pages/file/file",
     "pages/index/index",
     "pages/example/index"
@@ -13,5 +14,8 @@
   },
   "sitemapLocation": "sitemap.json",
   "style": "v2",
-  "lazyCodeLoading": "requiredComponents"
+  "lazyCodeLoading": "requiredComponents",
+  "useExtendedLib": {
+    "weui": true
+  }
 }

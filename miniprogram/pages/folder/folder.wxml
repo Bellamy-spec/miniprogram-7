@@ -1,0 +1,14 @@
+<!--pages/folder/folder.wxml-->
+<text>pages/folder/folder.wxml</text>
+<mp-toptips msg="组件引入成功，提示5秒后消失" type="error" show="true" delay="5000"></mp-toptips>
+<mp-form id="form" rules="{{ rules }}" models="{{ formData }}">
+  <mp-cells title="单选列表项">
+    <mp-checkbox-group prop="radio" muti="{{ false }}" bindchange="radioChange" data-value="value">
+      <mp-checkbox wx:for="{{ radioItems }}" wx:key="value" label="{{ item.name }}" value="{{ item.value }}" 
+      checked="{{ item.checked }}"></mp-checkbox>
+    </mp-checkbox-group>
+  </mp-cells>
+</mp-form>
+<mp-dialog title="WEUI引入成功" show="true" bindbuttontap="" buttons="{{ [{text: '确定'}] }}">
+  <view>看到这个界面说明WEUI拓展引入成功</view>
+</mp-dialog>

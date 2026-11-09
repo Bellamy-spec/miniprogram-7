@@ -24,7 +24,7 @@ App({
 
     // 将logs数据存储到缓存指定的键（也就是logs）里面
     wx.setStorageSync('logs', logs)
-    console.log(logs)
-    console.log(Date.now())
+    // console.log(logs)
+    // console.log(Date.now())
   },
 });
