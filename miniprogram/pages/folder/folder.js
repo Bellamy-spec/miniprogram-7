@@ -86,30 +86,30 @@ Page({
     // 如果当前用户的数据data数组的长度为0，说明数据库里没有当前用户的数据
     if(userData.length === 0){
       // 如果没有当前用户的数据，就新建一个数据框架，其中_id和_openid会自动生成
-      // wx.getUserInfo({
-      //   success: res => {
-      //     const userInfo = res.userInfo
-      //     console.log('当前用户信息', userInfo)
-      //     await db.collection('clouddisk').add({
-      //       data: {
-      //         // nickName和avatarUrl可以通过getUserInfo来获取，这里不多介绍
-      //         "nickName": userInfo.nickName,
-      //         "avatarUrl": userInfo.avatarUrl,
-      //         "albums": [],
-      //         "folders": []
-      //       },
-      //     })
-      //   }
-      // })
-      await db.collection('clouddisk').add({
-        data: {
-          // nickName和avatarUrl可以通过getUserInfo来获取，这里不多介绍
-          "nickName": "",
-          "avatarUrl": "",
-          "albums": [],
-          "folders": []
-        },
+      wx.getUserInfo({
+        success: res => {
+          const userInfo = res.userInfo
+          console.log('当前用户信息', userInfo)
+          db.collection('clouddisk').add({
+            data: {
+              // nickName和avatarUrl可以通过getUserInfo来获取，这里不多介绍
+              "nickName": userInfo.nickName,
+              "avatarUrl": userInfo.avatarUrl,
+              "albums": [],
+              "folders": []
+            },
+          })
+        }
       })
+      // await db.collection('clouddisk').add({
+      //   data: {
+      //     // nickName和avatarUrl可以通过getUserInfo来获取，这里不多介绍
+      //     "nickName": "",
+      //     "avatarUrl": "",
+      //     "albums": [],
+      //     "folders": []
+      //   },
+      // })
       wx.switchTab({    // 如果数据库不存在用户，除了在数据库创建一条空记录，还要跳转到user页面，
         // 尽管用户已经登录了，还是需要借助button的open-type="getUserInfo"来获取用户的信息
         url: '/pages/user/user',
