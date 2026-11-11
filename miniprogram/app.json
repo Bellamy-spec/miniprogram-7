@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/folder/folder",
+    "pages/user/user",
     "pages/file/file",
     "pages/index/index",
     "pages/example/index"
