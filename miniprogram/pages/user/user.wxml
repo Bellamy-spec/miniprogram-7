@@ -1,2 +1,9 @@
 <!--pages/user/user.wxml-->
 <text>pages/user/user.wxml</text>
+<button open-type="getUserInfo" bindgetuserinfo="getUserInfo" lang="zh_CN">单击获取用户信息</button>
+<button bind:tap="login_2026">2026年的登录做法（未完成）</button>
+<button open-type="chooseAvatar" bindchooseavatar="onAvatar">用户自行提供真实头像</button>
+<input type="nickname" bindblur="onNick" placeholder="点此用微信昵称" />
+<image src="{{ avatarUrl }}"></image>
+<view>{{ city }}</view>
+<view>{{ nickName }}</view>

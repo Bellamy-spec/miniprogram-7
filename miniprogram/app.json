@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/folder/folder",
+    "pages/album/album",
     "pages/user/user",
     "pages/file/file",
     "pages/index/index",
@@ -18,6 +19,10 @@
       {
         "pagePath": "pages/folder/folder",
         "text": "文件夹"
+      },
+      {
+        "pagePath": "pages/album/album",
+        "text": "相册"
       },
       {
         "pagePath": "pages/user/user",
