@@ -109,8 +109,9 @@ Page({
     console.log('更新结果', result)
   },
 
-  onAvatar(e){
-    let avatarUrl = e.detail.avatarUrl
+  async onAvatar(e){
+    let avatarUrl = await this.uploadAvatar(e.detail.avatarUrl)
+    console.log('获取到头像在云存储的fileID', avatarUrl)
     this.setData({
       avatarUrl
     })
@@ -127,8 +128,13 @@ Page({
     this.uploadMsg(avatarUrl, city, nickName)
   },
 
-  uploadAvatar(tempPath){
+  async uploadAvatar(tempPath){
     const ext = tempPath.split('.').pop()
     const cloudPath = `avatars/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+    const res = await wx.cloud.uploadFile({
+      cloudPath,
+      filePath: tempPath,
+    })
+    return res.fileID
   },
 })
