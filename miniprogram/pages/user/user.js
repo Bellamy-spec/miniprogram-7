@@ -1,5 +1,6 @@
 // pages/user/user.js
 const db = wx.cloud.database()
+const app = getApp()
 Page({
 
   /**
@@ -18,13 +19,17 @@ Page({
     wx.getSetting({
       success: res => {
         if(res.authSetting['scope.userInfo']){
-          wx.getUserInfo({
-            success: res => {
-              let {avatarUrl, city, nickName} = res.userInfo
-              this.setData({
-                avatarUrl, city, nickName
-              })
-            }
+          // wx.getUserInfo({
+          //   success: res => {
+          //     let {avatarUrl, city, nickName} = res.userInfo
+          //     this.setData({
+          //       avatarUrl, city, nickName
+          //     })
+          //   }
+          // })
+          const {avatarUrl, city, nickName} = app.globalData.userData[0]
+          this.setData({
+            avatarUrl, city, nickName
           })
         }
       }
