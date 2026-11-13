@@ -1,6 +1,6 @@
 <!--pages/user/user.wxml-->
 <text>pages/user/user.wxml</text>
-<button open-type="getUserInfo" bindgetuserinfo="getUserInfo" lang="zh_CN">单击获取用户信息</button>
+<!-- <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" lang="zh_CN">单击获取用户信息</button> -->
 <button bind:tap="login_2026">2026年的登录做法（未完成）</button>
 <button wx:if="{{ avatarUrl == '/images/no_login.png' }}" open-type="chooseAvatar" 
 bindchooseavatar="onAvatar">用户自行提供真实头像</button>
