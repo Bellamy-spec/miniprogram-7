@@ -1,17 +1,24 @@
 // pages/folder/folder.js
 const app = getApp()
 const db = wx.cloud.database()
+const _ = db.command
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    radioItems: [
-      {name: '选项A', value: 0},
-      {name: '选项B', value: 1},
-      {name: '选项C', value: 2},
-    ],
+    // radioItems: [
+    //   {name: '选项A', value: 0},
+    //   {name: '选项B', value: 1},
+    //   {name: '选项C', value: 2},
+    // ],
+    userData: [],
+    dialogShow: false,
+    showOneButtonDialog: false,
+    buttons: [{text: '取消'}, {text: '确定'}],
+    oneButton: [{text: '确定'}],
+    inputValue: '',
   },
 
   /**
@@ -120,6 +127,44 @@ Page({
       })
       app.globalData.userData = userData
       console.log('用户数据', userData)
+    }
+  },
+
+  showDialog(){
+    this.setData({
+      dialogShow: true,
+    })
+  },
+
+  keyInput(e){
+    // console.log('什么是e?', e)
+    this.setData({
+      inputValue: e.detail.value,
+    })
+  },
+
+  async createFolder(e){
+    // console.log("what's e?", e)
+    const folderName = this.data.inputValue
+    if(e.detail.index === 0){
+      this.setData({
+        dialogShow: false,
+      })
+    }else{
+      this.setData({
+        dialogShow: false,
+      })
+      const result = await db.collection('clouddisk').where({}).update({
+        data: {
+          folders: _.push({
+            each: [{"folderName": folderName, files: []}]
+          })
+        }
+      })
+      console.log("数据更新结果", result)
+      wx.reLaunch({
+        url: '/pages/folder/folder',
+      })
     }
   },
 })
