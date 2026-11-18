@@ -1,5 +1,17 @@
 <!--pages/file/file.wxml-->
 <text>pages/file/file.wxml</text>
+<!-- 从这里可以判断打开的是第几个文件夹 -->
+<text>你打开的是第{{ folderIndex + 1 }}个文件夹</text>
+<!-- 渲染数据指定id的文件夹内的文件列表到页面 -->
+<block wx:for="{{ folderData.files }}" wx:for-index="idx" wx:for-item="file" wx:key="item">
+  <mp-cell hover value="{{ file.name }}"></mp-cell>
+</block>
+
+<form bindsubmit="uploadFiles">
+  <button type="primary" bind:tap="chooseMessageFile">选择文件</button>
+  <button type="primary" form-type="submit">上传文件</button>
+</form>
+
 <button bind:tap="chooseImg">选择图片或视频</button>
 <view wx:for-items="{{ imgurl }}" wx:for-item="item" wx:key="index">
   <image mode="widthFix" src="{{ item }}" data-src="{{ item }}" bind:tap="previewImg"></image>
@@ -40,7 +52,7 @@
 <image mode="widthFix" src="{{ savedFilePath }}" style="width: 100px;"></image>
 <button bind:tap="chooseImage">请选择图片</button>
 <button bind:tap="saveImage">保存图片到缓存</button>
-<view wx:for="{{ logs }}" wx:for-item="log">
+<view wx:for="{{ logs }}" wx:for-item="log" wx:key="*this">
   <view>{{ index + 1 }}. {{ log }}</view>
 </view>
 <button bind:tap="choose_img">选择并上传图片</button>

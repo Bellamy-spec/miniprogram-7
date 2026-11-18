@@ -20,3 +20,7 @@
 <mp-dialog title="新建文件夹" show="{{ dialogShow }}" bindbuttontap="createFolder" buttons="{{ buttons }}">
   <input name="name" placeholder="请输入文件夹名" auto-focus value="{{ inputValue }}" bindinput="keyInput"></input>
 </mp-dialog>
+<block wx:for="{{ userData[0].folders }}" wx:for-index="idx" wx:for-item="folder" wx:key="item">
+  <mp-cell link hover url="/pages/file/file?index={{ idx }}" value="{{ folder.folderName }}" 
+  footer="{{ folder.files.length }}"></mp-cell>
+</block>

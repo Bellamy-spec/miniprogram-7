@@ -1,5 +1,8 @@
 // pages/file/file.js
 const util = require('../../utils/util.js')
+const app = getApp()
+const db = wx.cloud.database()
+const _ = db.command
 Page({
 
   /**
@@ -16,6 +19,10 @@ Page({
     tempFilePath: "",
     logs: [],
     img_url: '',
+    folderIndex: null,
+    folderData: [],
+    files: [],
+    fileID: '',
   },
 
   /**
@@ -26,8 +33,18 @@ Page({
       savedFilePath: wx.getStorageSync('savedFilePath'),
       logs: (wx.getStorageSync('logs') || []).map(log => {
         return util.formatTime(new Date(log))
-      })
+      }),
+
+      // 将获取到的index值赋给folderIndex
+      folderIndex: parseInt(options.index),   // 将字符串转为Number类型
     })
+    console.log('什么是options?', options)
+
+    const index = parseInt(options.index)
+    this.setData({    // 根据获取到的index，将该index的folders数据赋值给folderData
+      folderData: app.globalData.userData[0].folders[index]
+    })
+    console.log('赋值内容', this.data.folderData)
 
     // console.log('未格式化的时间', new Date())
     // console.log('格式化后的时间', util.formatTime(new Date()))
@@ -420,6 +437,68 @@ Page({
           console.log('获取到的临时链接', res.fileList)
         })
       }
+    })
+  },
+
+  chooseMessageFile(){
+    const files = this.data.files
+    wx.chooseMessageFile({
+      count: 5,
+      success: res => {
+        console.log('选择文件之后的res', res)
+        let tempFilePaths = res.tempFiles
+        for(const tempFilePath of tempFilePaths){
+          files.push({
+            src: tempFilePath.path,
+            name: tempFilePath.name,
+          })
+        }
+        this.setData({files})
+        console.log('选择文件之后的files', this.data.files)
+      }
+    })
+  },
+
+  uploadFiles(e){
+    const filePath = this.data.files[0].src
+    const cloudPath = `cloudbase/${Date.now()}-${Math.floor(Math.random(0, 1) * 1000)}` + '.' + filePath.split('.').pop()
+    wx.cloud.uploadFile({
+      cloudPath, filePath
+    }).then(res => {
+      this.setData({
+        fileID: res.fileID
+      })
+      this.addFiles(res.fileID)
+    }).catch(error => {
+      console.log('文件上传失败', error)
+    })
+  },
+
+  addFiles(fileID){
+    const name = this.data.files[0].name
+    const ud = app.globalData.userData[0]
+    const _id = ud._id
+    const idx = this.data.folderIndex
+    db.collection('clouddisk').doc(_id).update({
+      data: {
+        [`folders.${idx}.files`]: _.push({
+          "name": name,
+          "fileID": fileID,
+        })
+      },
+    }).then(res => {
+      console.log('写入成功', res)
+      // ud.folders[idx].files.push({
+      //   name: name,
+      //   fileID: fileID,
+      // })
+      // app.globalData.setData({
+      //   userData: [ud],
+      // })
+      wx.navigateBack()
+      // wx.reLaunch({
+      //   url: '/pages/file/file?index=' + idx,
+      // })
     })
   },
 })

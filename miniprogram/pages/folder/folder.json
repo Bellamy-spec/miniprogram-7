@@ -9,5 +9,6 @@
     "mp-checkbox-group": "/miniprogram_npm/weui-miniprogram/checkbox-group/checkbox-group",
     "mp-checkbox": "/miniprogram_npm/weui-miniprogram/checkbox/checkbox"
   },
-  "navigationBarTitleText": "文件夹列表"
+  "navigationBarTitleText": "文件夹列表",
+  "enablePullDownRefresh": true
 }

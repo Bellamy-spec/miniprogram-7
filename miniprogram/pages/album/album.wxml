@@ -1,3 +1,6 @@
 <!--pages/album/album.wxml-->
 <text>pages/album/album.wxml</text>
-<view>{{ userData }}</view>
+<view wx:for="{{ userData[0].albums }}" wx:for-item="album" wx:key="index">
+  <view>相册名称：{{ album.albumName }}</view>
+  <view>照片数量：{{ album.photos.length }}</view>
+</view>

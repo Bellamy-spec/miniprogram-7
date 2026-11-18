@@ -17,6 +17,7 @@ Page({
       userData: app.globalData.userData,
     })
     console.log('本页面的userData', this.data.userData)
+    console.log('相册页的options', options)
   },
 
   /**
